@@ -1,16 +1,5 @@
-# ticker
+# ticker-for-authors
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+I dream more than I write, so I hit on the idea of writing one word every 'x' seconds. Finding
+ticker tracks of the right length was a massive pain, so, I wrote up a tiny app that does exactly
+that - play a sound every 'x' seconds for a set duration of time.
