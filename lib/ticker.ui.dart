@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticker/ticker.model.dart';
@@ -35,8 +37,8 @@ class TickerDisplay extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       ticker.set(
-                        secondsPerWord: int.parse(secsPerWordReader.text),
-                        totalMinutes: int.parse(totalMinutesReader.text),
+                        timeBetweenTicks: int.parse(secsPerWordReader.text),
+                        totalTickingMinutes: int.parse(totalMinutesReader.text),
                       );
 
                       ticker.start();
@@ -55,12 +57,12 @@ class TickerDisplay extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${ticker.currentTick}/${ticker.totalTicks} W',
+                    '${ticker.completeTicks}/${ticker.totalTicks} W',
                     style: const TextStyle(fontSize: 25),
                   ),
                   Text(
                     formatTime(
-                      Duration(seconds: ticker.currentTick * ticker.timePerTick),
+                      Duration(seconds: ticker.completeTicks * ticker.timeBWTicks),
                     ),
                   ),
                   const Text(' '),

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 
+/// A class to play ticking sounds at regular intervals
+///
 class Ticker with ChangeNotifier {
   final _tickPlayer = AudioPlayer()
     ..setReleaseMode(ReleaseMode.stop)
@@ -16,26 +18,46 @@ class Ticker with ChangeNotifier {
 
   bool _isActive = false;
 
-  var timePerTick = 0, totalTime = 0, totalTicks = 0, currentTick = 0;
+  /// number of seconds between ticks
+  ///
+  var timeBWTicks = 0;
 
+  /// total number of minutes for which to play the ticking sounds
+  ///
+  var totalTime = 0;
+
+  /// total number of ticks to be played
+  ///
+  var totalTicks = 0;
+
+  /// the number of ticks that have been played
+  ///
+  var completeTicks = 0;
+
+  /// weather the `Ticker` is currently playing sound or not
+  ///
   bool get isActive => _isActive;
 
-  void set({required int secondsPerWord, required int totalMinutes}) {
-    timePerTick = secondsPerWord;
-    totalTime = totalMinutes;
+  /// setup the `Ticker` to play ticking sounds to the wanted parameters
+  ///
+  void set({required int timeBetweenTicks, required int totalTickingMinutes}) {
+    timeBWTicks = timeBetweenTicks;
+    totalTime = totalTickingMinutes;
 
-    totalTicks = Duration(minutes: totalMinutes).inSeconds ~/ secondsPerWord;
-    currentTick = 0;
+    totalTicks = Duration(minutes: totalTickingMinutes).inSeconds ~/ timeBetweenTicks;
+    completeTicks = 0;
 
     notifyListeners();
   }
 
+  /// start the ticking sounds
+  ///
   void start() {
     _isActive = true;
 
     notifyListeners();
 
-    _timer = Timer.periodic(Duration(seconds: timePerTick), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: timeBWTicks), (timer) async {
       if (timer.tick > totalTicks) {
         await Future.delayed(
           const Duration(milliseconds: 375),
@@ -63,12 +85,14 @@ class Ticker with ChangeNotifier {
         await _tockPlayer.resume();
       }
 
-      currentTick = timer.tick;
+      completeTicks = timer.tick;
 
       notifyListeners();
     });
   }
 
+  /// stop the ticking sounds before the pre-configured duration
+  ///
   void stop() {
     _timer?.cancel();
 
